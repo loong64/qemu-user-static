@@ -1,4 +1,4 @@
-FROM debian:trixie-slim as builder
+FROM debian:trixie-slim AS builder
 
 ARG DEPENDENCIES="      \
         ca-certificates \
