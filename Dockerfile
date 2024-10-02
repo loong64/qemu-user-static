@@ -15,20 +15,18 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && apt-get -y install --no-install-recommends ${DEPENDENCIES} \
     && apt-get download qemu-user qemu-user-static
 
+COPY docker-entrypoint.sh /opt/
+
 RUN set -ex \
     && wget https://github.com/multiarch/qemu-user-static/raw/master/containers/latest/register.sh \
     && wget https://github.com/qemu/qemu/raw/master/scripts/qemu-binfmt-conf.sh \
-    && chmod +x register.sh qemu-binfmt-conf.sh
+    && chmod +x *.sh
 
 FROM debian:trixie-slim
 
-RUN --mount=type=bind,from=builder,source=/opt,target=/opt \
-    set -ex \
-    && cd /opt \
-    && cp -f /opt/register.sh /register \
-    && cp -f /opt/qemu-binfmt-conf.sh /qemu-binfmt-conf.sh \
-    && dpkg --unpack qemu*.deb
+COPY --from=builder /opt/qemu*.deb /opt/
+COPY --from=builder /opt/*.sh /
 
 ENV QEMU_BIN_DIR=/usr/bin
 
-ENTRYPOINT ["/register"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
