@@ -10,15 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
 
       - name: Setup environment
         run: |
           serial=$(date "+%Y%m%d")
           echo "serial=${serial}" >> $GITHUB_ENV
-
-      - name: Setup QEMU
-        run: docker run --rm --privileged ghcr.io/loong64/qemu-user-static --reset -p yes
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3

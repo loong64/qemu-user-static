@@ -48,11 +48,8 @@ jobs:
     env:
       tag: ${{ needs.build.outputs.tag }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
-
-      - name: Setup QEMU
-        run: docker run --rm --privileged ghcr.io/loong64/qemu-user-static:${tag} --reset -p yes
 
       - name: Test Image
         run: |
