@@ -13,7 +13,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' >/etc/apt/apt.conf.d/keep-cache \
     && apt-get update \
     && apt-get -y install --no-install-recommends ${DEPENDENCIES} \
-    && apt-get download qemu-user qemu-user-static
+    && apt-get download qemu-user qemu-user-binfmt
 
 COPY docker-entrypoint.sh /opt/
 
