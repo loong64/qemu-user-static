@@ -19,7 +19,7 @@ COPY docker-entrypoint.sh /opt/
 
 RUN set -ex \
     && wget https://github.com/multiarch/qemu-user-static/raw/master/containers/latest/register.sh \
-    && wget https://github.com/qemu/qemu/raw/master/scripts/qemu-binfmt-conf.sh \
+    && wget https://github.com/qemu/qemu/blob/v9.2.2/scripts/qemu-binfmt-conf.sh \
     && chmod +x *.sh
 
 FROM debian:trixie-slim
